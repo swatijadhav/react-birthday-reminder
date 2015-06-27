@@ -13,7 +13,7 @@ this.BirthdayList = React.createClass({
 
   _fetchPeople: function(data) {
     return $.ajax({
-      url: "/birthdays/index",
+      url: "/birthdays",
       dataType: 'json',
       data: data
     }).done(this._fetchDataDone).fail(this._fetchDataFail);
@@ -24,6 +24,25 @@ this.BirthdayList = React.createClass({
       didFetchData: true,
       people: data
     });
+  },
+
+  handleSubmit: function() {
+    var name = this.refs.name.getDOMNode().value;
+    var birthdate = this.refs.birthdate.getDOMNode().value;
+    var email = this.refs.email.getDOMNode().value;
+    var obj = {name: name, email: email, birthdate: birthdate };
+    var newPeople = this.state.people.concat(obj);
+    this.setState({people: newPeople});
+    this._addPerson({birthday: obj});
+  },
+
+  _addPerson: function(data) {
+    return $.ajax({
+      url: "/birthdays",
+      dataType: 'json',
+      type: 'post',
+      data: data
+    }).done(this._fetchDataDone);
   },
 
   render: function(){
@@ -50,10 +69,22 @@ this.BirthdayList = React.createClass({
     }
 
     return (
-      <div class="row">
-        <div class="large-12 columns">
-          <div class="row">
-            {displayBlock}
+
+      <div>
+        <div>
+          <h4>Add new birthday</h4>
+          <input type="text" placeholder="Name" id="name" ref="name" />
+          <input type="date" placeholder="Birthdate" id="birthdate" ref="birthdate" />
+          <input type="email" placeholder="Email" id="email" ref="email" />
+          <button type="button" className="button radius" onClick={this.handleSubmit}>Submit</button>
+        </div>
+
+        <h4>BirthdayList</h4>
+        <div class="row">
+          <div class="large-12 columns">
+            <div class="row">
+              {displayBlock}
+            </div>
           </div>
         </div>
       </div>
