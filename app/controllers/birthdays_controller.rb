@@ -9,6 +9,12 @@ class BirthdaysController < ApplicationController
     render json: birthday.to_json
   end
 
+  def destroy
+    birthday = Birthday.find(params[:id])
+    birthday.destroy
+    head :no_content
+  end
+
   private
 
   def birthday_params

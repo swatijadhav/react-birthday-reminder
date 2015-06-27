@@ -45,10 +45,29 @@ this.BirthdayList = React.createClass({
     }).done(this._fetchDataDone);
   },
 
-  render: function(){
+  _removePerson: function(id) {
+    return $.ajax({
+      url: "/birthdays/" + id,
+      dataType: 'json',
+      type: 'delete',
+    });
+  },
 
-    var cardsNode = this.state.people.map(function(person) {
-      return <PersonInfo key={person.id} data={person}/>
+  handleDeleteClick: function(id){
+    records = this.state.people.slice();
+    record = $.grep(records, function(e) { return e.id == id })[0];
+    index = records.indexOf(record);
+    records.splice(index, 1);
+    this.replaceState({people: records});
+    this._removePerson(id);
+  },
+
+  render: function(){
+    var _this = this;
+
+    var cardsNode = _this.state.people.map(function(person) {
+      var boundDeleteClick = _this.handleDeleteClick.bind(this, person.id);
+      return <PersonInfo key={person.id} data={person} onDeleteClick={boundDeleteClick}/>
     });
 
     var noDataNode = (
@@ -73,10 +92,14 @@ this.BirthdayList = React.createClass({
       <div>
         <div>
           <h4>Add new birthday</h4>
-          <input type="text" placeholder="Name" id="name" ref="name" />
-          <input type="date" placeholder="Birthdate" id="birthdate" ref="birthdate" />
-          <input type="email" placeholder="Email" id="email" ref="email" />
-          <button type="button" className="button radius" onClick={this.handleSubmit}>Submit</button>
+          <form onSubmit={this.handleSubmit}>
+            <input type="text" placeholder="Name" id="name" ref="name" />
+            <input type="date" placeholder="Birthdate" id="birthdate" ref="birthdate" />
+            <input type="email" placeholder="Email" id="email" ref="email" />
+            <button type="submit" className="button radius" >Submit</button>
+            &nbsp;&nbsp;
+            <button type="reset" className="button radius" >Cancel</button>
+          </form>
         </div>
 
         <h4>BirthdayList</h4>

@@ -12,6 +12,8 @@ this.PersonInfo = React.createClass({
         <div className="panel">
           <h5>{this.props.data.name}</h5>
           <h6 className="subheader">{date}</h6>
+          <i className="fa fa-trash" onClick={this.props.onDeleteClick}></i>
+          <i className="fa fa-pencil"></i>
         </div>
       </div>
     );

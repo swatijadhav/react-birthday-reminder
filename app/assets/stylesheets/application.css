@@ -13,9 +13,23 @@
  *= require_tree .
  *= require_self
  *= require foundation_and_overrides
-
+ *= require font-awesome
  */
 
 input {
   width: 20% !important;
+}
+i {
+  float: right;
+  cursor: pointer;
+}
+.fa-pencil {
+  margin-right: 0.5rem;
+}
+.fa-trash {
+  margin-right: -0.5rem;
+}
+
+.columns:last-child {
+   float: left !important;
 }
