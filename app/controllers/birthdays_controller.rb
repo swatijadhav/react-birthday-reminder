@@ -4,9 +4,13 @@ class BirthdaysController < ApplicationController
   end
 
   def create
-    birthday = Birthday.new(birthday_params)
-    birthday.save
-    render json: birthday.to_json
+    birthday =  if(id = params["birthday"]["id"]).blank?
+      Birthday.new
+    else
+      Birthday.find_by(id: id)
+    end
+    birthday.update(birthday_params)
+    head :no_content
   end
 
   def destroy

@@ -6,14 +6,14 @@ this.PersonInfo = React.createClass({
     var date = moment(this.props.data.birthdate).format("DD MMMM");
 
     return (
-      <div className="large-2 small-6 columns">
+      <div className="large-2 medium-3 small-6 columns">
         <img src={gravatar}/>
 
         <div className="panel">
           <h5>{this.props.data.name}</h5>
           <h6 className="subheader">{date}</h6>
           <i className="fa fa-trash" onClick={this.props.onDeleteClick}></i>
-          <i className="fa fa-pencil"></i>
+          <i className="fa fa-pencil" onClick={this.props.onEditClick}></i>
         </div>
       </div>
     );
